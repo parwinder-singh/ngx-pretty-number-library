@@ -12,6 +12,14 @@ export class PrettyNumberDirective {
   constructor(private el: ElementRef, private num: DecimalPipe) {
   }
 
+  @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+    e.preventDefault();
+  }
+
+  @HostListener('drop', ['$event']) drop(e) {
+    e.preventDefault();
+  }
+
   @HostListener('keyup', ['$event']) onKeyup() {
     let inputValue: string = this.el.nativeElement.value;
     const cursorPosition = this.el.nativeElement.selectionStart;
