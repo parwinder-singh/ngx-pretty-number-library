@@ -3,6 +3,5 @@
  */
 
 export * from './lib/pretty-number.service';
-export * from './lib/pretty-number.component';
 export * from './lib/pretty-number.directive';
 export * from './lib/pretty-number.module';
