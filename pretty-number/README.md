@@ -1,6 +1,7 @@
-# PrettyNumber
+# ngxPrettyNumber (Beta)
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+This library includes functionality to enable number only input field along with two decimal places. Package includes a single directive `ngxPrettyNumber` which
+needs to be applied on input (type='text') field. Adding this will enable comma formatting as user start typing. Also, it will maintain two decimal places mask.
 
 ## Code scaffolding
 
