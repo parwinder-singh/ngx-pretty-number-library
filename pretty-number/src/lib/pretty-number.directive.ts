@@ -2,7 +2,7 @@ import {Directive, ElementRef, HostListener} from '@angular/core';
 import {DecimalPipe} from '@angular/common';
 
 @Directive({
-  selector: '[ngPrettyNumber]'
+  selector: '[ngxPrettyNumber]'
 })
 export class PrettyNumberDirective {
 
