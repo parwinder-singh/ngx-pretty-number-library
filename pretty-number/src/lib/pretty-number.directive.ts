@@ -20,7 +20,7 @@ export class PrettyNumberDirective {
     e.preventDefault();
   }
 
-  @HostListener('keyup', ['$event']) onKeyup() {
+  @HostListener('keyup', ['$event']) onKeyup($event) {
     let inputValue: string = this.el.nativeElement.value;
     const cursorPosition = this.el.nativeElement.selectionStart;
     inputValue = inputValue.replace(/,/g, '');
@@ -33,7 +33,12 @@ export class PrettyNumberDirective {
         this.el.nativeElement.value = splitValue.join('.');
       }
       // Maintaining cursor position
-      this.el.nativeElement.setSelectionRange(cursorPosition, cursorPosition);
+      if (this.isValidMovementKeys($event) && cursorPosition < this.el.nativeElement.value.indexOf('.')) {
+        const cursorDepth = splitValue[0].length - cursorPosition;
+        this.el.nativeElement.setSelectionRange(cursorPosition + cursorDepth, cursorPosition + cursorDepth);
+      } else {
+        this.el.nativeElement.setSelectionRange(cursorPosition, cursorPosition);
+      }
     } else {
       if (inputValue !== '') {
         // Append '.00' if user enter something like $1 to show $1.00
@@ -60,6 +65,11 @@ export class PrettyNumberDirective {
         // NavigationKeys => Allowing left arrow, right arrow and backspace
         if (split[1].length >= 2 && (cursorPosition - 1) === (dotIndex + 2) && !this.navigationKeys.includes(event.key)) {
           event.preventDefault();
+        }
+
+        if (split[0] === '0' && cursorPosition < inputValue.indexOf('.')) {
+          this.el.nativeElement.value = '.'.concat(split[1]);
+          this.el.nativeElement.setSelectionRange(cursorPosition, cursorPosition);
         }
       }
       // Skip dot (automatically move cursor to next number after decimal)
@@ -105,5 +115,7 @@ export class PrettyNumberDirective {
     return str.substr(0, index) + replacement + str.substr(index + replacement.length);
   }
 
-
+  isValidMovementKeys($event) {
+    return $event.key !== '.' && $event.key !== 'ArrowLeft' && $event.key !== 'ArrowRight' && $event.key !== 'Backspace';
+  }
 }
